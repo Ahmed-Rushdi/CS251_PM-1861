@@ -30,6 +30,7 @@ public class system {
 
 		System.out.println("Welcome to GoFo playground reservation");
 		registerMenu();
+		int x;
 	}
 
 	public static void addPlayground() {
