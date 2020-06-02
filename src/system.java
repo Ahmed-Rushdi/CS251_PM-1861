@@ -72,7 +72,6 @@ public class system {
 					break;
 			}
 		}
-		accounts.get(currentIndex);
 	}
 
 	public static void registerMenu() throws Exception {
