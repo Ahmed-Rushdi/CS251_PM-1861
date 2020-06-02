@@ -29,8 +29,26 @@ public class system {
 	public static void main(String[] args) throws Exception {
 
 		System.out.println("Welcome to GoFo playground reservation");
-		registerMenu();
-		int x;
+		while (true) {
+			try {
+				System.out.println("1-Register a new account");
+				System.out.println("2-Login to your account");
+				switch (scanner.nextInt()) {
+				case 1:
+					scanner.nextLine();
+					registerMenu();
+					break;
+				case 2:
+					scanner.nextLine();
+					loginMenu();
+					break;
+				default:
+					throw new Exception("Invalid choice");
+				}
+			} catch (Exception e) {
+				System.out.println("Error: " + e.getMessage());
+			}
+		}
 	}
 
 	public static void addPlayground() {
@@ -73,7 +91,7 @@ public class system {
 		String regexEmail = "^[a-zA-Z0-9_.-]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+$";
 		if (!Pattern.matches(regexEmail, EM)) {
 			throw new Exception(
-					"Email should follow this fromat( alphanumerical_.- + @ + alphanumerical + . + alphanumerical");
+					"Email should follow this fromat( alphanumerical and (_.-) + @ + alphanumerical and (-) + . + alphanumerical and (.)");
 		}
 
 		System.out.println("Password");
