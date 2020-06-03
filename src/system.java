@@ -93,7 +93,7 @@ public class system {
 				break;
 			} catch (Exception e) {
 				System.err.println(e + " \n to cancel type c or any other input to retry");
-				if (scanner.nextLine() == "c")
+				if (scanner.nextLine().equalsIgnoreCase("c"))
 					break;
 			}
 		}
@@ -243,8 +243,9 @@ public class system {
 				boolean found = false;
 				int i;
 				for (i = 0; i < accounts.size(); i++) {
-					if (accounts.get(i).getUserName() == name && accounts.get(i).getEmail() == email
-							&& accounts.get(i) instanceof Player && !(toInvite.contains(accounts.get(i)))) {
+					if (accounts.get(i).getUserName().equalsIgnoreCase(name)
+							&& accounts.get(i).getEmail().equalsIgnoreCase(email) && accounts.get(i) instanceof Player
+							&& !(toInvite.contains(accounts.get(i)))) {
 						found = true;
 						toInvite.add((Player) accounts.get(i));
 					}
@@ -316,9 +317,8 @@ public class system {
 				}
 				System.out.println("total :" + total * toBook.getPph() + " EGP");
 				System.out.println("Proceed?(Y/N will take you back to main menu)");
-				int choice2 = scanner.nextInt();
-				scanner.nextLine();
-				if ((choice2 == 'Y' || choice2 == 'y')
+				String choice2 = scanner.nextLine();
+				if ((choice2.equalsIgnoreCase("y"))
 						&& ((Player) accounts.get(currentIndex)).getWallet().getBalance() >= total) {
 					((Player) accounts.get(currentIndex)).getWallet()
 							.setBalance(((Player) accounts.get(currentIndex)).getWallet().getBalance() - total);
@@ -387,7 +387,7 @@ public class system {
 					date = scanner.nextLine();
 					avaliable.get(choice).displaySlots(new SimpleDateFormat("dd-MM").parse(date));
 					System.out.println("Do you want to book a slot (Y/N)");
-					if (scanner.nextLine() == "Y" || scanner.nextLine() == "y") {
+					if (scanner.nextLine().equalsIgnoreCase("y")) {
 						bookPlayground(avaliable.get(choice), date);
 					}
 					break;
@@ -417,7 +417,7 @@ public class system {
 					date = scanner.nextLine();
 					avaliable.get(choice).displaySlots(new SimpleDateFormat("dd-MM").parse(date));
 					System.out.println("Do you want to book a slot (Y/N)");
-					if (scanner.nextLine() == "Y" || scanner.nextLine() == "y") {
+					if (scanner.nextLine().equalsIgnoreCase("y")) {
 						bookPlayground(avaliable.get(choice), date);
 					}
 					break;
@@ -448,7 +448,7 @@ public class system {
 						date = scanner.nextLine();
 						matched.get(choice).displaySlots(new SimpleDateFormat("dd-MM").parse(date));
 						System.out.println("Do you want to book a slot (Y/N)");
-						if (scanner.nextLine() == "Y" || scanner.nextLine() == "y") {
+						if (scanner.nextLine().equalsIgnoreCase("y")) {
 							bookPlayground(matched.get(choice), date);
 						}
 						break;
