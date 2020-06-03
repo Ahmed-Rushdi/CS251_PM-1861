@@ -343,9 +343,10 @@ public class system {
 	public static void approveMenu() {
 
 		ArrayList<Playground> waiting = new ArrayList<Playground>(playgrounds);
-		for (Playground temp : waiting) {
-			if (temp.getPlaygroundState() != State.WAITING) {
-				waiting.remove(temp);
+		for (int i = waiting.size() - 1; i >= 0; i--) {
+
+			if (waiting.get(i).getPlaygroundState() != State.WAITING) {
+				waiting.remove(waiting.get(i));
 			}
 		}
 		System.out.println("Here is a list of waiting playgrounds");
@@ -528,7 +529,7 @@ public class system {
 			from = date + " " + from;
 			to = date + " " + to;
 			Booking temp = new Booking(formatter.parse(from), formatter.parse(to));
-			for (int j = 0; j < matched.get(i).getBookings().size(); j++) {
+			for (int j = matched.get(i).getBookings().size() - 1; j > 0; j--) {
 				if (matched.get(i).getBookings().get(j).collides(temp)) {
 					matched.remove(i);
 					break;
