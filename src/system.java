@@ -349,16 +349,20 @@ public class system {
 				waiting.remove(waiting.get(i));
 			}
 		}
-		System.out.println("Here is a list of waiting playgrounds");
-		int i = 1;
-		for (Playground temp : waiting) {
-			System.out.println(i + "-" + temp);
-			i++;
-		}
-		i = scanner.nextInt();
-		scanner.nextLine();
-		((Administrator) accounts.get(currentIndex)).approve(waiting.get(i));
+		if (waiting.size() > 0) {
+			System.out.println("Here is a list of waiting playgrounds");
+			int i = 1;
+			for (Playground temp : waiting) {
+				System.out.println(i + "-" + temp);
+				i++;
+			}
+			i = scanner.nextInt();
+			scanner.nextLine();
+			((Administrator) accounts.get(currentIndex)).approve(waiting.get(i - 1));
 
+		} else {
+			System.out.println("no waiting playgrounds");
+		}
 	}
 
 	public static void viewFilter() {

@@ -6,38 +6,38 @@ public class locationComparator implements Comparator<Playground> {
 		String pNeighbourhood = ((Player) system.accounts.get(system.currentIndex)).getLocation().split("-")[1];
 		String pCity = ((Player) system.accounts.get(system.currentIndex)).getLocation().split("-")[2];
 
-		if (pCity.equalsIgnoreCase(lhs.getAddress().split("0")[1].split("-")[2])
-				&& rhs.getAddress().split("0")[1].split("-")[2].equalsIgnoreCase(pCity)) {
+		if (pCity.equalsIgnoreCase(lhs.getAddress().split("-")[2])
+				&& rhs.getAddress().split("-")[2].equalsIgnoreCase(pCity)) {
 
-			if (pNeighbourhood.equalsIgnoreCase(lhs.getAddress().split("0")[1].split("-")[1])
-					&& rhs.getAddress().split("0")[1].split("-")[1].equalsIgnoreCase(pNeighbourhood)) {
+			if (pNeighbourhood.equalsIgnoreCase(lhs.getAddress().split("-")[1])
+					&& rhs.getAddress().split("-")[1].equalsIgnoreCase(pNeighbourhood)) {
 
-				if (pStreet.equalsIgnoreCase(lhs.getAddress().split("0")[1].split("-")[0])
-						&& rhs.getAddress().split("0")[1].split("-")[0].equalsIgnoreCase(pStreet)) {
+				if (pStreet.equalsIgnoreCase(lhs.getAddress().split("-")[0])
+						&& rhs.getAddress().split("-")[0].equalsIgnoreCase(pStreet)) {
 
 					return 0;
 
-				} else if (pStreet.equalsIgnoreCase(lhs.getAddress().split("0")[1].split("-")[0])
-						&& !rhs.getAddress().split("0")[1].split("-")[0].equalsIgnoreCase(pStreet)) {
+				} else if (pStreet.equalsIgnoreCase(lhs.getAddress().split("-")[0])
+						&& !rhs.getAddress().split("-")[0].equalsIgnoreCase(pStreet)) {
 					return -1;
-				} else if (!pStreet.equalsIgnoreCase(lhs.getAddress().split("0")[1].split("-")[0])
-						&& rhs.getAddress().split("0")[1].split("-")[0].equalsIgnoreCase(pStreet)) {
+				} else if (!pStreet.equalsIgnoreCase(lhs.getAddress().split("-")[0])
+						&& rhs.getAddress().split("-")[0].equalsIgnoreCase(pStreet)) {
 					return 1;
 				}
 
-			} else if (pNeighbourhood.equalsIgnoreCase(lhs.getAddress().split("0")[1].split("-")[1])
-					&& !rhs.getAddress().split("0")[1].split("-")[1].equalsIgnoreCase(pNeighbourhood)) {
+			} else if (pNeighbourhood.equalsIgnoreCase(lhs.getAddress().split("-")[1])
+					&& !rhs.getAddress().split("-")[1].equalsIgnoreCase(pNeighbourhood)) {
 				return -1;
-			} else if (!pNeighbourhood.equalsIgnoreCase(lhs.getAddress().split("0")[1].split("-")[1])
-					&& rhs.getAddress().split("0")[1].split("-")[1].equalsIgnoreCase(pNeighbourhood)) {
+			} else if (!pNeighbourhood.equalsIgnoreCase(lhs.getAddress().split("-")[1])
+					&& rhs.getAddress().split("-")[1].equalsIgnoreCase(pNeighbourhood)) {
 				return 1;
 			}
 
-		} else if (pCity.equalsIgnoreCase(lhs.getAddress().split("0")[1].split("-")[2])
-				&& !rhs.getAddress().split("0")[1].split("-")[2].equalsIgnoreCase(pCity)) {
+		} else if (pCity.equalsIgnoreCase(lhs.getAddress().split("-")[2])
+				&& !rhs.getAddress().split("-")[2].equalsIgnoreCase(pCity)) {
 			return -1;
-		} else if (!pCity.equalsIgnoreCase(lhs.getAddress().split("0")[1].split("-")[2])
-				&& rhs.getAddress().split("0")[1].split("-")[2].equalsIgnoreCase(pCity)) {
+		} else if (!pCity.equalsIgnoreCase(lhs.getAddress().split("-")[2])
+				&& rhs.getAddress().split("-")[2].equalsIgnoreCase(pCity)) {
 			return 1;
 		}
 		return 0;
