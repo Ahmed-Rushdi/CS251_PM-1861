@@ -22,7 +22,7 @@ public class Playground {
 		System.out.println("to");
 		int temp2 = system.scanner.nextInt();
 		system.scanner.nextLine();
-		System.out.println("Enter cancellation period");
+		System.out.println("Enter cancellation dealine in days before the booked day");
 		cancelPeriod = system.scanner.nextInt();
 		system.scanner.nextLine();
 		bookings = new ArrayList<Booking>();
@@ -99,7 +99,7 @@ public class Playground {
 		public int to;
 
 		Avaliability(int F, int T) throws Exception {
-			if (F >= 0 && T >= 0 && F < 24 && T < 24) {
+			if (F >= 0 && T >= 0 && F <= 24 && T <= 24) {
 				from = F;
 				to = T;
 			} else {

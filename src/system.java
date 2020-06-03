@@ -31,7 +31,7 @@ public class system {
 
 		System.out.println("Welcome to GoFo playground reservation");
 		while (running) {
-			while (true) {
+			while (currentIndex == -1) {
 				try {
 					System.out.println("1-Register a new account");
 					System.out.println("2-Login to your account");
@@ -39,7 +39,6 @@ public class system {
 					switch (scanner.nextLine()) {
 					case "1":
 						registerMenu();
-						loginMenu();
 						break;
 					case "2":
 						loginMenu();
@@ -52,10 +51,14 @@ public class system {
 							System.out.println(i);
 						}
 						break;
+					case "5":
+						for (Playground i : playgrounds) {
+							System.out.println(i);
+						}
+						break;
 					default:
 						throw new Exception("Invalid choice");
 					}
-					break;
 				} catch (Exception e) {
 					System.out.println("Error: " + e.getMessage());
 				}
@@ -70,7 +73,7 @@ public class system {
 						adminMenu();
 					}
 				} catch (Exception e) {
-
+					e.printStackTrace();
 				}
 			}
 		}
@@ -92,7 +95,8 @@ public class system {
 				playgrounds.add(temp);
 				break;
 			} catch (Exception e) {
-				System.err.println(e + " \n to cancel type c or any other input to retry");
+				e.printStackTrace();
+				System.out.println(" \n to cancel type c or any other input to retry");
 				if (scanner.nextLine().equalsIgnoreCase("c"))
 					break;
 			}
@@ -165,7 +169,8 @@ public class system {
 					System.out.println("Enter Address:");
 					String A = scanner.nextLine();
 					System.out.println("Enter Phonenumber:");
-					long PN = scanner.nextLong();
+					String PN = scanner.nextLine();
+					Long.parseUnsignedLong(PN);
 					temp = new PlaygroundOwner(UN, EM, PW, A, PN);
 					loop = false;
 					break;
@@ -208,7 +213,7 @@ public class system {
 		}
 		if (i == accounts.size()) {
 			System.out.println("Invalid login info, please retry!");
-			System.out.println("e to Main menu");
+			System.out.println("e to Main menu or enter to retry");
 			if (!scanner.nextLine().equals("e")) {
 				loginMenu();
 			}
@@ -336,8 +341,8 @@ public class system {
 	}
 
 	public static void approveMenu() {
-		@SuppressWarnings("unchecked")
-		ArrayList<Playground> waiting = (ArrayList<Playground>) playgrounds.clone();
+
+		ArrayList<Playground> waiting = new ArrayList<Playground>(playgrounds);
 		for (Playground temp : waiting) {
 			if (temp.getPlaygroundState() != State.WAITING) {
 				waiting.remove(temp);
@@ -363,8 +368,8 @@ public class system {
 		System.out.println("Press anything else to go back");
 		int choice = 0;
 		String date;
-		@SuppressWarnings("unchecked")
-		ArrayList<Playground> avaliable = (ArrayList<Playground>) playgrounds.clone();
+
+		ArrayList<Playground> avaliable = new ArrayList<Playground>(playgrounds);
 		switch (scanner.nextInt()) {
 		case 1:
 			scanner.nextLine();
@@ -380,8 +385,17 @@ public class system {
 					for (int i = 0; i < avaliable.size(); i++) {
 						System.out.println((i + 1) + "-" + avaliable.get(i));
 					}
-					System.out.println("Your choice:");
+					if (avaliable.size() == 0) {
+						System.out.println("no Playgrounds avaliable");
+						break;
+					}
+					System.out.println("Your choice: -1 to back");
 					choice = scanner.nextInt();
+					if (choice > avaliable.size()) {
+						throw new Exception("invalid choice");
+					} else if (choice == -1) {
+						break;
+					}
 					scanner.nextLine();
 					System.out.println("Please enter date (dd-MM)");
 					date = scanner.nextLine();
@@ -392,7 +406,11 @@ public class system {
 					}
 					break;
 				} catch (ParseException e) {
-					System.out.println("Invalid date entered");
+					e.printStackTrace();
+
+				} catch (Exception e) {
+					e.printStackTrace();
+
 				}
 			}
 			break;
@@ -410,8 +428,17 @@ public class system {
 					for (int i = 0; i < avaliable.size(); i++) {
 						System.out.println((i + 1) + "-" + avaliable.get(i));
 					}
-					System.out.println("Your choice:");
+					if (avaliable.size() == 0) {
+						System.out.println("no Playgrounds avaliable");
+						break;
+					}
+					System.out.println("Your choice: -1 to back");
 					choice = scanner.nextInt();
+					if (choice > avaliable.size()) {
+						throw new Exception("invalid choice");
+					} else if (choice == -1) {
+						break;
+					}
 					scanner.nextLine();
 					System.out.println("Please enter date (dd-MM)");
 					date = scanner.nextLine();
@@ -423,6 +450,8 @@ public class system {
 					break;
 				} catch (ParseException e) {
 					System.out.println("Invalid date entered");
+				} catch (Exception e) {
+					e.printStackTrace();
 				}
 			}
 			break;
@@ -441,8 +470,17 @@ public class system {
 						for (int i = 0; i < matched.size(); i++) {
 							System.out.println((i + 1) + "-" + matched.get(i));
 						}
-						System.out.println("Your choice:");
+						if (matched.size() == 0) {
+							System.out.println("no Playgrounds avaliable");
+							break;
+						}
+						System.out.println("Your choice: -1 to back");
 						choice = scanner.nextInt();
+						if (choice > matched.size()) {
+							throw new Exception("invalid choice");
+						} else if (choice == -1) {
+							break;
+						}
 						scanner.nextLine();
 						System.out.println("Please enter date (dd-MM)");
 						date = scanner.nextLine();
@@ -454,6 +492,8 @@ public class system {
 						break;
 					} catch (ParseException e) {
 						System.out.println("Invalid date entered");
+					} catch (Exception e) {
+						e.printStackTrace();
 					}
 				}
 			} catch (ParseException e) {
@@ -467,8 +507,7 @@ public class system {
 	}
 
 	public static ArrayList<Playground> timeFilter() throws ParseException {
-		@SuppressWarnings("unchecked")
-		ArrayList<Playground> matched = (ArrayList<Playground>) playgrounds.clone();
+		ArrayList<Playground> matched = new ArrayList<Playground>(playgrounds);
 		String date, from, to;
 
 		System.out.println("Please enter date (dd-MM)");

@@ -3,14 +3,20 @@ import java.util.ArrayList;
 public class PlaygroundOwner extends Account {
 	private eWallet wallet;
 	private String Address;
-	private long phoneNum;
-	private ArrayList<Playground> playgrounds;
+	private String phoneNum;
+	private ArrayList<Playground> playgrounds = new ArrayList<Playground>();
+
+	@Override
+	public String toString() {
+		return "PlaygroundOwner [Address=" + Address + ", phoneNum=" + phoneNum + ", userName=" + userName + ", email="
+				+ email + "]";
+	}
 
 	public ArrayList<Playground> getPlaygrounds() {
 		return playgrounds;
 	}
 
-	PlaygroundOwner(String U, String e, String P, String L, long PN) {
+	PlaygroundOwner(String U, String e, String P, String L, String PN) {
 		super(U, e, P);
 		Address = L;
 		phoneNum = PN;
@@ -18,11 +24,11 @@ public class PlaygroundOwner extends Account {
 		wallet.setBalance(0);
 	}
 
-	public long getPhoneNum() {
+	public String getPhoneNum() {
 		return phoneNum;
 	}
 
-	public void setPhoneNum(long phoneNum) {
+	public void setPhoneNum(String phoneNum) {
 		this.phoneNum = phoneNum;
 	}
 

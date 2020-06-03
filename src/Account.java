@@ -4,13 +4,12 @@ public class Account {
 	protected String userName;
 	protected String email;
 	protected String passWord;
-	protected ArrayList<String> inbox;
+	protected ArrayList<String> inbox = new ArrayList<String>();
 
 	Account(String U, String e, String P) {
 		userName = U;
 		email = e;
 		passWord = P;
-		inbox = new ArrayList<String>();
 	}
 
 	public String getUserName() {
