@@ -489,7 +489,31 @@ public class system {
 			System.out.println("Welcome " + accounts.get(currentIndex).getUserName() + " to the Player main menu");
 			System.out.println("1- View Playgrounds");
 			System.out.println("2- Modify team");
-			System.out.println("3- Logout");
+			System.out.println("3- View Bookings");
+			System.out.println("4- Logout");
+			switch (scanner.nextLine()) {
+			case "1":
+				viewFilter();
+				break;
+			case "2":
+				((Player) accounts.get(currentIndex)).modifyTeam();
+				break;
+			case "3":
+				((Player) accounts.get(currentIndex)).modifyBookings();
+				break;
+			case "4":
+				logout();
+				break;
+			}
+		}
+	}
+
+	public static void OwnerMenu() {
+		while (true) {
+			System.out.println("Welcome " + accounts.get(currentIndex).getUserName() + " to the Player main menu");
+			System.out.println("1- Add a playground");
+			System.out.println("2- Update a playground");
+			System.out.println("3- View Bookings");
 			switch (scanner.nextLine()) {
 			case "1":
 				viewFilter();

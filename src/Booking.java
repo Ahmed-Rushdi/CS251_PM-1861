@@ -1,76 +1,100 @@
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.text.SimpleDateFormat;
 
 public class Booking {
+
 	private Date From;
-	private static int counter=1000000;
+	private static int counter = 1000000;
 	private int bookingID;
 	private int duration;
 	private Date To;
 	private Playground place;
 	private ArrayList<Player> booker;
+
 	public Booking(Date from, Date to, Playground place, ArrayList<Player> booker) {
 		From = from;
 		To = to;
-		duration=Integer.parseInt(new SimpleDateFormat("HH").format(from)) + 
-				Integer.parseInt(new SimpleDateFormat("HH").format(to));
+		duration = Integer.parseInt(new SimpleDateFormat("HH").format(from))
+				+ Integer.parseInt(new SimpleDateFormat("HH").format(to));
 		this.place = place;
 		this.booker = booker;
-		bookingID=counter++;
+		bookingID = counter++;
 	}
+
 	public Booking(Date from, Date to) {
 		From = from;
 		To = to;
-		bookingID=counter++;
+		bookingID = counter++;
 	}
+
 	public int getBookingID() {
 		return bookingID;
 	}
+
 	public ArrayList<Player> getBooker() {
 		return booker;
 	}
+
 	public void setBooker(ArrayList<Player> booker) {
 		this.booker = booker;
 	}
+
 	public Date getFrom() {
 		return From;
 	}
+
 	public void setFrom(Date from) {
 		From = from;
 	}
+
 	public Date getTo() {
 		return To;
 	}
+
 	public void setTo(Date to) {
 		To = to;
 	}
+
 	public Playground getPlace() {
 		return place;
 	}
+
 	public void setPlace(Playground place) {
 		this.place = place;
 	}
-	
-	public boolean collides(Booking rhs)
-	{
-		if(From.compareTo(rhs.From)>=0 && From.compareTo(To)<0)
+
+	public boolean collides(Booking rhs) {
+		if (From.compareTo(rhs.From) >= 0 && From.compareTo(To) < 0)
 			return true;
-		else if(To.compareTo(rhs.From)>0 && To.compareTo(To)<=0)
+		else if (To.compareTo(rhs.From) > 0 && To.compareTo(To) <= 0)
 			return true;
 		return false;
 	}
-	
-	public void invitePlayers()
-	{
-		for(int i=1;i<booker.size();i++)
-		{
-			booker.get(i).getInbox().add(0, booker.get(0).getUserName()+" ("+booker.get(0).getEmail()+") \n has invited you to "
-					+place+" From "+new SimpleDateFormat("dd-MM HH").format(From)+"To "+new SimpleDateFormat("dd-MM HH").format(To));
+
+	public void invitePlayers() {
+		for (int i = 1; i < booker.size(); i++) {
+			booker.get(i).getInbox().add(0,
+					booker.get(0).getUserName() + " (" + booker.get(0).getEmail() + ") \n has invited you to " + place
+							+ " From " + new SimpleDateFormat("dd-MM HH").format(From) + "To "
+							+ new SimpleDateFormat("dd-MM HH").format(To));
 		}
-		booker.get(0).getInbox().add(0,"you Have Booked "+place+"\n From "+new SimpleDateFormat("dd-MM HH").format(From)
-				+" To "+new SimpleDateFormat("dd-MM HH").format(To) + " For "+(double) place.getPph()*duration);
+		booker.get(0).getInbox().add(0,
+				"you Have Booked " + place + "\n From " + new SimpleDateFormat("dd-MM HH").format(From) + " To "
+						+ new SimpleDateFormat("dd-MM HH").format(To) + " For " + (double) place.getPph() * duration);
 	}
-	
+
+	@Override
+	public String toString() {
+		StringBuilder str = new StringBuilder("Booking [From=" + From + ", To=" + To + ", bookingID=" + bookingID
+				+ ", duration=" + duration + ", place=" + place + "]");
+		str.append("Players \n________________");
+		for (Player i : booker) {
+			str.append(i);
+			str.append("\n");
+		}
+		return str.toString();
+	}
+
 }

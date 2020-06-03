@@ -6,23 +6,35 @@ public class Playground {
 	private String name;
 	private String Address;
 	private double pph;
+	private int cancelPeriod;
 	private Avaliability avaliableTime;
 	private ArrayList<Booking> bookings;
 	private State playgroundState = State.WAITING;
 	private PlaygroundOwner owner;
+
 	Playground(String name, String address, double pph) throws Exception {
 		this.name = name;
 		Address = address;
 		this.pph = pph;
 		System.out.println("The Playground is avaliable from (in 24 hour format):");
-		int temp= system.scanner.nextInt();
+		int temp = system.scanner.nextInt();
 		System.out.println("to");
-		int temp2= system.scanner.nextInt();
-		bookings=new ArrayList<Booking>();
-		avaliableTime=new Avaliability(temp,temp2);
-		
+		int temp2 = system.scanner.nextInt();
+		System.out.println("Enter cancellation period");
+		cancelPeriod = system.scanner.nextInt();
+		bookings = new ArrayList<Booking>();
+		avaliableTime = new Avaliability(temp, temp2);
+
 	}
-	
+
+	public int getCancelPeriod() {
+		return cancelPeriod;
+	}
+
+	public void setCancelPeriod(int cancelPeriod) {
+		this.cancelPeriod = cancelPeriod;
+	}
+
 	public PlaygroundOwner getOwner() {
 		return owner;
 	}
@@ -79,66 +91,53 @@ public class Playground {
 		this.playgroundState = playgroundState;
 	}
 
-	class Avaliability{
+	class Avaliability {
 		public int from;
 		public int to;
-		Avaliability(int F,int T) throws Exception
-		{
-			if(F >=0 && T >=0 && F<24 && T<24)
-			{
-				from=F;
-				to=T;
-			}
-			else 
-			{
+
+		Avaliability(int F, int T) throws Exception {
+			if (F >= 0 && T >= 0 && F < 24 && T < 24) {
+				from = F;
+				to = T;
+			} else {
 				throw new Exception("Invalid hours");
 			}
-			
+
 		}
-		
+
 		public String toString() {
 			return "Avaliability [from " + from + " to " + to + "]";
 		}
 	}
 
-	
 	public String toString() {
 		return "Playground [name=" + name + ", Address=" + Address + ", pph=" + pph + ", avaliableTime=" + avaliableTime
 				+ ", playgroundState=" + playgroundState + "]";
 	}
-		
-	public void displaySlots(Date day)
-	{
-		boolean[] hours=new boolean[24];
 
-		for(int i=0;i<bookings.size();i++)
-		{
-			if(bookings.get(i).getFrom().compareTo(day)==0)
-			{
-				int temp=Integer.parseInt(new SimpleDateFormat("HH").format(bookings.get(i).getFrom()));
-				int temp2=Integer.parseInt(new SimpleDateFormat("HH").format(bookings.get(i).getTo()));
-				for(int j=temp;j<=temp2;j++)
-				{
-					hours[j]=true;
+	public void displaySlots(Date day) {
+		boolean[] hours = new boolean[24];
+
+		for (int i = 0; i < bookings.size(); i++) {
+			if (bookings.get(i).getFrom().compareTo(day) == 0) {
+				int temp = Integer.parseInt(new SimpleDateFormat("HH").format(bookings.get(i).getFrom()));
+				int temp2 = Integer.parseInt(new SimpleDateFormat("HH").format(bookings.get(i).getTo()));
+				for (int j = temp; j <= temp2; j++) {
+					hours[j] = true;
 				}
 			}
 		}
-		int start =avaliableTime.from,end;
+		int start = avaliableTime.from, end;
 
-		for(end=avaliableTime.from;end<=avaliableTime.to;end++)
-		{
+		for (end = avaliableTime.from; end <= avaliableTime.to; end++) {
 
-			if(hours[start]!=hours[end])
-			{
-				System.out.println(start +" to "+ (end-1)+" is " +(hours[start]?"Booked":"avaliable"));
-				start=end;
+			if (hours[start] != hours[end]) {
+				System.out.println(start + " to " + (end - 1) + " is " + (hours[start] ? "Booked" : "avaliable"));
+				start = end;
 			}
 		}
 
+		System.out.println(start + " to " + (end - 1) + " is " + (hours[start] ? "Booked" : "avaliable"));
 
-		System.out.println(start +" to "+ (end-1)+" is " +(hours[start]?"Booked":"avaliable"));
-
-		
-		
 	}
 }

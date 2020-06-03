@@ -1,4 +1,6 @@
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 public class Player extends Account {
 	private eWallet wallet;
@@ -65,6 +67,7 @@ public class Player extends Account {
 				}
 				System.out.println("1-Add a teammate");
 				System.out.println("2-Remove a teammate");
+				System.out.println("3-Back");
 				switch (system.scanner.nextLine()) {
 				case "1":
 					System.out.println("Enter their email:");
@@ -99,6 +102,62 @@ public class Player extends Account {
 							throw new Exception("Player doesn't exist");
 						}
 					}
+					break;
+				case "3":
+					break;
+				default:
+					throw new Exception("Invalid choice");
+				}
+				break;
+			} catch (Exception e) {
+				System.out.println(e);
+			}
+		}
+	}
+
+	public void modifyBookings() {
+		if (bookings.size() == 0) {
+			System.out.println("No teammembers yet");
+		}
+		while (true) {
+			try {
+				System.out.println("Your bookings:");
+				for (Booking i : bookings) {
+					System.out.println(i);
+				}
+				if (bookings.size() == 0) {
+					System.out.println("No bookings yet");
+				}
+				System.out.println("1-Cancel a booking");
+				System.out.println("2-Back");
+				switch (system.scanner.nextLine()) {
+				case "1":
+					System.out.println("Enter booking id:");
+					int index = -1;
+					int id = system.scanner.nextInt();
+					system.scanner.nextLine();
+					for (Booking i : bookings) {
+						if (i.getBookingID() == id) {
+							index = bookings.indexOf(i);
+						}
+					}
+					if (index == -1) {
+						throw new Exception("ID doesn't exist");
+					}
+					Date canceldate = new Date();
+					Calendar c = Calendar.getInstance();
+					c.setTime(canceldate);
+					c.add(Calendar.DATE, bookings.get(index).getPlace().getCancelPeriod());
+					canceldate = c.getTime();
+					if (canceldate.compareTo(bookings.get(index).getFrom()) >= 0) {
+						throw new Exception("Not within cancellation period");
+					} else {
+						bookings.get(index).getPlace().getBookings().remove(bookings.get(index));
+						bookings.remove(index);
+						System.out.println("Success!");
+					}
+					break;
+				case "2":
 					break;
 				default:
 					throw new Exception("Invalid choice");
