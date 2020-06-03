@@ -10,6 +10,7 @@ public class system {
 	public static Scanner scanner = new Scanner(System.in);;
 	public static ArrayList<Account> accounts = new ArrayList<Account>();
 	public static ArrayList<Playground> playgrounds = new ArrayList<Playground>();
+	public static boolean running = true;
 
 	public static int currentIndex = -1;
 
@@ -29,24 +30,43 @@ public class system {
 	public static void main(String[] args) throws Exception {
 
 		System.out.println("Welcome to GoFo playground reservation");
-		while (true) {
-			try {
-				System.out.println("1-Register a new account");
-				System.out.println("2-Login to your account");
-				switch (scanner.nextInt()) {
-				case 1:
-					scanner.nextLine();
-					registerMenu();
+		while (running) {
+			while (true) {
+				try {
+					System.out.println("1-Register a new account");
+					System.out.println("2-Login to your account");
+					System.out.println("3-Exit");
+					switch (scanner.nextLine()) {
+					case "1":
+						registerMenu();
+						loginMenu();
+						break;
+					case "2":
+						loginMenu();
+						break;
+					case "3":
+						running = false;
+						break;
+					default:
+						throw new Exception("Invalid choice");
+					}
 					break;
-				case 2:
-					scanner.nextLine();
-					loginMenu();
-					break;
-				default:
-					throw new Exception("Invalid choice");
+				} catch (Exception e) {
+					System.out.println("Error: " + e.getMessage());
 				}
-			} catch (Exception e) {
-				System.out.println("Error: " + e.getMessage());
+			}
+			while (currentIndex != -1) {
+				try {
+					if (accounts.get(currentIndex) instanceof Player) {
+						PlayerMenu();
+					} else if (accounts.get(currentIndex) instanceof PlaygroundOwner) {
+
+					} else if (accounts.get(currentIndex) instanceof Administrator) {
+
+					}
+				} catch (Exception e) {
+
+				}
 			}
 		}
 	}
@@ -112,6 +132,10 @@ public class system {
 			System.out.println("Invalid Verification code, Please Retry!");
 		}
 		Account temp = new Account(UN, EM, PW);
+		if (accounts.contains(temp)) {
+			throw new Exception("email is already registered");
+		}
+
 		boolean loop = true;
 		int choice = 0;
 		while (loop) {
@@ -122,6 +146,7 @@ public class system {
 				System.out.println("3-Administrator");
 				System.out.println("4-MainMenu");
 				choice = scanner.nextInt();
+				scanner.nextLine();
 				switch (choice) {
 				case 1:
 					System.out.println("Enter your Street,Neighbourhood and City separated by a '-':");
@@ -457,6 +482,26 @@ public class system {
 			}
 		}
 		return matched;
+	}
+
+	public static void PlayerMenu() {
+		while (true) {
+			System.out.println("Welcome " + accounts.get(currentIndex).getUserName() + " to the Player main menu");
+			System.out.println("1- View Playgrounds");
+			System.out.println("2- Modify team");
+			System.out.println("3- Logout");
+			switch (scanner.nextLine()) {
+			case "1":
+				viewFilter();
+				break;
+			case "2":
+				((Player) accounts.get(currentIndex)).modifyTeam();
+				break;
+			case "3":
+				logout();
+				break;
+			}
+		}
 	}
 
 }
