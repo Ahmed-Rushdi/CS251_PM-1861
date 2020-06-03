@@ -18,10 +18,13 @@ public class Playground {
 		this.pph = pph;
 		System.out.println("The Playground is avaliable from (in 24 hour format):");
 		int temp = system.scanner.nextInt();
+		system.scanner.nextLine();
 		System.out.println("to");
 		int temp2 = system.scanner.nextInt();
+		system.scanner.nextLine();
 		System.out.println("Enter cancellation period");
 		cancelPeriod = system.scanner.nextInt();
+		system.scanner.nextLine();
 		bookings = new ArrayList<Booking>();
 		avaliableTime = new Avaliability(temp, temp2);
 

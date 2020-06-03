@@ -30,7 +30,7 @@ public class Account {
 	}
 
 	public boolean login(String U, String P) {
-		return ((U == userName || U == email) && P == passWord);
+		return (U.equalsIgnoreCase(email) && P.equals(passWord));
 	}
 
 	public void inboxToString() {

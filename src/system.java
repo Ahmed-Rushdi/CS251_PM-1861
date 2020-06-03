@@ -47,6 +47,11 @@ public class system {
 					case "3":
 						running = false;
 						break;
+					case "4":
+						for (Account i : accounts) {
+							System.out.println(i);
+						}
+						break;
 					default:
 						throw new Exception("Invalid choice");
 					}
@@ -60,9 +65,9 @@ public class system {
 					if (accounts.get(currentIndex) instanceof Player) {
 						PlayerMenu();
 					} else if (accounts.get(currentIndex) instanceof PlaygroundOwner) {
-
+						OwnerMenu();
 					} else if (accounts.get(currentIndex) instanceof Administrator) {
-
+						adminMenu();
 					}
 				} catch (Exception e) {
 
@@ -96,7 +101,8 @@ public class system {
 
 	public static void registerMenu() throws Exception {
 		String UN, EM, PW;
-
+		System.out.println("Register");
+		System.out.println("________");
 		System.out.println("Username");
 		UN = scanner.nextLine();
 		String regexName = "^[a-zA-Z0-9_@-]{4,}$";
@@ -124,8 +130,6 @@ public class system {
 			String verifCode = rand();
 			System.out.println("Enter Verifaction Code:" + verifCode);
 			String x = scanner.nextLine();
-			System.out.println(x);
-			System.out.println(verifCode);
 			if (x.equals(verifCode)) {
 				break;
 			}
@@ -144,7 +148,7 @@ public class system {
 				System.out.println("1-Player");
 				System.out.println("2-Playground Owner");
 				System.out.println("3-Administrator");
-				System.out.println("4-MainMenu");
+				System.out.println("4-Back");
 				choice = scanner.nextInt();
 				scanner.nextLine();
 				switch (choice) {
@@ -188,8 +192,9 @@ public class system {
 
 	public static void loginMenu() {
 		String U, P;
-
-		System.out.println("Enter Username/Email");
+		System.out.println("Login");
+		System.out.println("_____");
+		System.out.println("Enter Email");
 		U = scanner.nextLine();
 
 		System.out.println("Enter Password");
@@ -204,7 +209,7 @@ public class system {
 		if (i == accounts.size()) {
 			System.out.println("Invalid login info, please retry!");
 			System.out.println("e to Main menu");
-			if (scanner.nextLine() != "e") {
+			if (!scanner.nextLine().equals("e")) {
 				loginMenu();
 			}
 		}
@@ -227,7 +232,9 @@ public class system {
 			System.out.println("3-Proceed");
 			System.out.println("4-Remove a player from the List");
 			System.out.println("4-Back");
-			switch (choice = scanner.nextInt()) {
+			choice = scanner.nextInt();
+			system.scanner.nextLine();
+			switch (choice) {
 			case 1:
 				System.out.println("Enter Username");
 				String name = scanner.nextLine();
@@ -269,6 +276,7 @@ public class system {
 						System.out.println((k + 1) + "-" + toInvite.get(k));
 					}
 					int toRemove = scanner.nextInt();
+					scanner.nextLine();
 					if (toRemove >= toInvite.size() && toRemove <= 0) {
 						System.out.println("wrong choice");
 					} else {
@@ -309,6 +317,7 @@ public class system {
 				System.out.println("total :" + total * toBook.getPph() + " EGP");
 				System.out.println("Proceed?(Y/N will take you back to main menu)");
 				int choice2 = scanner.nextInt();
+				scanner.nextLine();
 				if ((choice2 == 'Y' || choice2 == 'y')
 						&& ((Player) accounts.get(currentIndex)).getWallet().getBalance() >= total) {
 					((Player) accounts.get(currentIndex)).getWallet()
@@ -341,6 +350,7 @@ public class system {
 			i++;
 		}
 		i = scanner.nextInt();
+		scanner.nextLine();
 		((Administrator) accounts.get(currentIndex)).approve(waiting.get(i));
 
 	}
@@ -357,6 +367,7 @@ public class system {
 		ArrayList<Playground> avaliable = (ArrayList<Playground>) playgrounds.clone();
 		switch (scanner.nextInt()) {
 		case 1:
+			scanner.nextLine();
 			Collections.sort(avaliable, new locationComparator());
 			for (int i = avaliable.size() - 1; i >= 0; i--) {
 				if (avaliable.get(i).getPlaygroundState() != State.AVALIABLE) {
@@ -371,6 +382,7 @@ public class system {
 					}
 					System.out.println("Your choice:");
 					choice = scanner.nextInt();
+					scanner.nextLine();
 					System.out.println("Please enter date (dd-MM)");
 					date = scanner.nextLine();
 					avaliable.get(choice).displaySlots(new SimpleDateFormat("dd-MM").parse(date));
@@ -385,7 +397,7 @@ public class system {
 			}
 			break;
 		case 2:
-
+			scanner.nextLine();
 			Collections.sort(avaliable, new pphComparator());
 			for (int i = avaliable.size() - 1; i >= 0; i--) {
 				if (avaliable.get(i).getPlaygroundState() != State.AVALIABLE) {
@@ -400,6 +412,7 @@ public class system {
 					}
 					System.out.println("Your choice:");
 					choice = scanner.nextInt();
+					scanner.nextLine();
 					System.out.println("Please enter date (dd-MM)");
 					date = scanner.nextLine();
 					avaliable.get(choice).displaySlots(new SimpleDateFormat("dd-MM").parse(date));
@@ -415,6 +428,7 @@ public class system {
 			break;
 		case 3:
 			try {
+				scanner.nextLine();
 				ArrayList<Playground> matched = timeFilter();
 				for (int i = matched.size() - 1; i >= 0; i--) {
 					if (matched.get(i).getPlaygroundState() != State.AVALIABLE) {
@@ -429,6 +443,7 @@ public class system {
 						}
 						System.out.println("Your choice:");
 						choice = scanner.nextInt();
+						scanner.nextLine();
 						System.out.println("Please enter date (dd-MM)");
 						date = scanner.nextLine();
 						matched.get(choice).displaySlots(new SimpleDateFormat("dd-MM").parse(date));
@@ -484,48 +499,65 @@ public class system {
 		return matched;
 	}
 
-	public static void PlayerMenu() {
-		while (true) {
-			System.out.println("Welcome " + accounts.get(currentIndex).getUserName() + " to the Player main menu");
-			System.out.println("1- View Playgrounds");
-			System.out.println("2- Modify team");
-			System.out.println("3- View Bookings");
-			System.out.println("4- Logout");
-			switch (scanner.nextLine()) {
-			case "1":
-				viewFilter();
-				break;
-			case "2":
-				((Player) accounts.get(currentIndex)).modifyTeam();
-				break;
-			case "3":
-				((Player) accounts.get(currentIndex)).modifyBookings();
-				break;
-			case "4":
-				logout();
-				break;
-			}
+	public static void PlayerMenu() throws Exception {
+
+		System.out.println("Welcome " + accounts.get(currentIndex).getUserName() + " to the Player main menu");
+		System.out.println("1- View Playgrounds");
+		System.out.println("2- Modify team");
+		System.out.println("3- View Bookings");
+		System.out.println("4- Logout");
+		switch (scanner.nextLine()) {
+		case "1":
+			viewFilter();
+			break;
+		case "2":
+			((Player) accounts.get(currentIndex)).modifyTeam();
+			break;
+		case "3":
+			((Player) accounts.get(currentIndex)).modifyBookings();
+			break;
+		case "4":
+			logout();
+			break;
+		default:
+			throw new Exception("Invalid input");
+		}
+
+	}
+
+	public static void OwnerMenu() throws Exception {
+
+		System.out.println("Welcome " + accounts.get(currentIndex).getUserName() + " to the Owner main menu");
+		System.out.println("1- Add a playground");
+		System.out.println("2- Logout");
+		switch (scanner.nextLine()) {
+		case "1":
+			addPlayground();
+			break;
+		case "2":
+			logout();
+			break;
+		default:
+			throw new Exception("Invalid input");
+
 		}
 	}
 
-	public static void OwnerMenu() {
-		while (true) {
-			System.out.println("Welcome " + accounts.get(currentIndex).getUserName() + " to the Player main menu");
-			System.out.println("1- Add a playground");
-			System.out.println("2- Update a playground");
-			System.out.println("3- View Bookings");
-			switch (scanner.nextLine()) {
-			case "1":
-				viewFilter();
-				break;
-			case "2":
-				((Player) accounts.get(currentIndex)).modifyTeam();
-				break;
-			case "3":
-				logout();
-				break;
-			}
+	public static void adminMenu() throws Exception {
+
+		System.out.println("Welcome " + accounts.get(currentIndex).getUserName() + " to the Administrator main menu");
+		System.out.println("1- View playgrounds for approval");
+		System.out.println("2- Logout");
+		switch (scanner.nextLine()) {
+		case "1":
+			approveMenu();
+			break;
+		case "2":
+			logout();
+			break;
+		default:
+			throw new Exception("Invalid input");
+
 		}
 	}
-
 }
