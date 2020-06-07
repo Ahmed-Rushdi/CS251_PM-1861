@@ -320,7 +320,7 @@ public class system {
 						throw new Exception("The hours entred collide with other bookings in the playground");
 					}
 				}
-				System.out.println("total :" + total * toBook.getPph() + " EGP");
+				System.out.println("total :" + total + " EGP");
 				System.out.println("Proceed?(Y/N will take you back to main menu)");
 				String choice2 = scanner.nextLine();
 				if ((choice2.equalsIgnoreCase("y"))
@@ -331,7 +331,8 @@ public class system {
 					temp.invitePlayers();
 					toBook.getBookings().add(temp);
 					((Player) accounts.get(currentIndex)).getBookings().add(temp);
-				} else if (((Player) accounts.get(currentIndex)).getWallet().getBalance() < total) {
+				} else if ((choice2.equalsIgnoreCase("y"))
+						&& ((Player) accounts.get(currentIndex)).getWallet().getBalance() < total) {
 					System.out.println("insufficient balance");
 				}
 			} catch (Exception e) {
@@ -402,6 +403,7 @@ public class system {
 						break;
 					}
 					scanner.nextLine();
+					choice--;
 					System.out.println("Please enter date (dd-MM)");
 					date = scanner.nextLine();
 					avaliable.get(choice).displaySlots(new SimpleDateFormat("dd-MM").parse(date));
@@ -445,6 +447,7 @@ public class system {
 						break;
 					}
 					scanner.nextLine();
+					choice--;
 					System.out.println("Please enter date (dd-MM)");
 					date = scanner.nextLine();
 					avaliable.get(choice).displaySlots(new SimpleDateFormat("dd-MM").parse(date));
@@ -481,12 +484,14 @@ public class system {
 						}
 						System.out.println("Your choice: -1 to back");
 						choice = scanner.nextInt();
+						scanner.nextLine();
 						if (choice > matched.size()) {
 							throw new Exception("invalid choice");
 						} else if (choice == -1) {
 							break;
 						}
 						scanner.nextLine();
+						choice--;
 						System.out.println("Please enter date (dd-MM)");
 						date = scanner.nextLine();
 						matched.get(choice).displaySlots(new SimpleDateFormat("dd-MM").parse(date));
@@ -522,12 +527,12 @@ public class system {
 		System.out.println("Please enter ending hour (24-hour format)");
 		to = scanner.nextLine();
 		for (int i = matched.size() - 1; i >= 0; i--) {
-			if ((Integer.parseInt(from) < matched.get(i).getAvaliableTime().from
-					|| Integer.parseInt(from) > matched.get(i).getAvaliableTime().to)
-					|| (Integer.parseInt(to) < matched.get(i).getAvaliableTime().from
-							|| Integer.parseInt(to) > matched.get(i).getAvaliableTime().to)) {
+			if (Integer.parseInt(from) < matched.get(i).getAvaliableTime().from
+					|| Integer.parseInt(from) > matched.get(i).getAvaliableTime().to
+					|| Integer.parseInt(to) < matched.get(i).getAvaliableTime().from
+					|| Integer.parseInt(to) > matched.get(i).getAvaliableTime().to) {
 				matched.remove(i);
-				break;
+				continue;
 			}
 			SimpleDateFormat formatter = new SimpleDateFormat("dd-MM HH");
 			from = date + " " + from;

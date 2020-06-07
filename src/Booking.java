@@ -17,7 +17,7 @@ public class Booking {
 		From = from;
 		To = to;
 		duration = Integer.parseInt(new SimpleDateFormat("HH").format(from))
-				+ Integer.parseInt(new SimpleDateFormat("HH").format(to));
+				- Integer.parseInt(new SimpleDateFormat("HH").format(to));
 		this.place = place;
 		this.booker = booker;
 		bookingID = counter++;
@@ -89,7 +89,7 @@ public class Booking {
 	public String toString() {
 		StringBuilder str = new StringBuilder("Booking [From=" + From + ", To=" + To + ", bookingID=" + bookingID
 				+ ", duration=" + duration + ", place=" + place + "]");
-		str.append("Players \n________________");
+		str.append("\nPlayers \n________________");
 		for (Player i : booker) {
 			str.append(i);
 			str.append("\n");

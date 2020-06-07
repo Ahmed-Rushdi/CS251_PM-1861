@@ -91,8 +91,8 @@ public class Player extends Account {
 					String rEmail = system.scanner.nextLine();
 					if (!system.accounts.contains(new Account("", rEmail, ""))) {
 						throw new Exception("Player doesn't exist");
-					} else if (Team.contains(new Account("", rEmail, ""))) {
-						throw new Exception("teammate already exists");
+					} else if (!Team.contains(new Account("", rEmail, ""))) {
+						throw new Exception("teammate doesn't exists");
 					} else {
 						int index = system.accounts.indexOf(new Account("", rEmail, ""));
 						if (system.accounts.get(index) instanceof Player) {
@@ -117,7 +117,7 @@ public class Player extends Account {
 
 	public void modifyBookings() {
 		if (bookings.size() == 0) {
-			System.out.println("No teammembers yet");
+			System.out.println("No bookings yet");
 		}
 		while (true) {
 			try {
