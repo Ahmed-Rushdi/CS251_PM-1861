@@ -1,13 +1,14 @@
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Scanner;
 import java.util.regex.Pattern;
 
 public class system {
 
-	public static Scanner scanner = new Scanner(System.in);;
+	public static Scanner scanner = new Scanner(System.in);
 	public static ArrayList<Account> accounts = new ArrayList<Account>();
 	public static ArrayList<Playground> playgrounds = new ArrayList<Playground>();
 	public static boolean running = true;
@@ -162,7 +163,12 @@ public class system {
 					if (L.split("-").length != 3) {
 						throw new Exception("Wrong location fromat");
 					}
-					temp = new Player(UN, EM, PW, L);
+					System.out.println("Enter eWallet number");
+					String num = scanner.nextLine();
+					System.out.println("Enter eWallet password");
+					String walletPW = scanner.nextLine();
+					eWallet w = new eWallet(walletPW, num);
+					temp = new Player(UN, EM, PW, L, w);
 					loop = false;
 					break;
 				case 2:
@@ -171,7 +177,12 @@ public class system {
 					System.out.println("Enter Phonenumber:");
 					String PN = scanner.nextLine();
 					Long.parseUnsignedLong(PN);
-					temp = new PlaygroundOwner(UN, EM, PW, A, PN);
+					System.out.println("Enter eWallet number");
+					String num1 = scanner.nextLine();
+					System.out.println("Enter eWallet password");
+					String walletPW1 = scanner.nextLine();
+					eWallet w1 = new eWallet(walletPW1, num1);
+					temp = new PlaygroundOwner(UN, EM, PW, A, PN, w1);
 					loop = false;
 					break;
 				case 3:
@@ -236,7 +247,7 @@ public class system {
 			System.out.println("2-Your Team");
 			System.out.println("3-Proceed");
 			System.out.println("4-Remove a player from the List");
-			System.out.println("4-Back");
+			System.out.println("5-Back");
 			choice = scanner.nextInt();
 			system.scanner.nextLine();
 			switch (choice) {
@@ -249,14 +260,17 @@ public class system {
 				int i;
 				for (i = 0; i < accounts.size(); i++) {
 					if (accounts.get(i).getUserName().equalsIgnoreCase(name)
-							&& accounts.get(i).getEmail().equalsIgnoreCase(email) && accounts.get(i) instanceof Player
-							&& !(toInvite.contains(accounts.get(i)))) {
+							&& accounts.get(i).getEmail().equalsIgnoreCase(email)
+							&& accounts.get(i) instanceof Player) {
 						found = true;
-						toInvite.add((Player) accounts.get(i));
+						if (toInvite.contains(accounts.get(i))) {
+							System.out.println("Player already added");
+						} else {
+							toInvite.add((Player) accounts.get(i));
+						}
 					}
 				}
-				if (toInvite.contains(accounts.get(i))) {
-				} else if (found == false) {
+				if (found == false) {
 					System.out.println("Player not found in the system");
 				}
 				break;
@@ -310,30 +324,42 @@ public class system {
 								|| Integer.parseInt(to) > toBook.getAvaliableTime().to)) {
 					throw new Exception("Hours not avaliable");
 				}
-				SimpleDateFormat formatter = new SimpleDateFormat("dd-MM HH");
-				from = date + " " + from;
-				to = date + " " + to;
-				Booking temp = new Booking(formatter.parse(from), formatter.parse(to), toBook, toInvite);
+				SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy HH");
+				String year = Integer.toString(Calendar.getInstance().get(Calendar.YEAR));
+				String fromDate = date + "-" + year + " " + from;
+				String toDate = date + "-" + year + " " + to;
+				Booking temp = new Booking(formatter.parse(fromDate), formatter.parse(toDate), toBook, toInvite);
 
 				for (int i = 0; i < toBook.getBookings().size(); i++) {
 					if (toBook.getBookings().get(i).collides(temp)) {
 						throw new Exception("The hours entred collide with other bookings in the playground");
 					}
 				}
-				System.out.println("total :" + total + " EGP");
-				System.out.println("Proceed?(Y/N will take you back to main menu)");
-				String choice2 = scanner.nextLine();
-				if ((choice2.equalsIgnoreCase("y"))
-						&& ((Player) accounts.get(currentIndex)).getWallet().getBalance() >= total) {
-					((Player) accounts.get(currentIndex)).getWallet()
-							.setBalance(((Player) accounts.get(currentIndex)).getWallet().getBalance() - total);
-					toBook.getOwner().getWallet().setBalance(toBook.getOwner().getWallet().getBalance() + total);
-					temp.invitePlayers();
-					toBook.getBookings().add(temp);
-					((Player) accounts.get(currentIndex)).getBookings().add(temp);
-				} else if ((choice2.equalsIgnoreCase("y"))
-						&& ((Player) accounts.get(currentIndex)).getWallet().getBalance() < total) {
-					System.out.println("insufficient balance");
+				System.out.println("Total :" + total + " EGP");
+				System.out.println("Enter eWallet number");
+				String n = scanner.nextLine();
+				System.out.println("Enter eWallet password");
+				String pass = scanner.nextLine();
+				if (n.equals(((Player) accounts.get(currentIndex)).getWallet().getNumber())
+						&& pass.equals(((Player) accounts.get(currentIndex)).getWallet().getPassword())) {
+					System.out.println("New balance will be"
+							+ (((Player) accounts.get(currentIndex)).getWallet().getBalance() - total));
+					System.out.println("Confirm?(Y/N will take you back to main menu)");
+					String choice2 = scanner.nextLine();
+					if ((choice2.equalsIgnoreCase("y"))
+							&& ((Player) accounts.get(currentIndex)).getWallet().getBalance() >= total) {
+						((Player) accounts.get(currentIndex)).getWallet()
+								.setBalance(((Player) accounts.get(currentIndex)).getWallet().getBalance() - total);
+						toBook.getOwner().getWallet().setBalance(toBook.getOwner().getWallet().getBalance() + total);
+						temp.invitePlayers();
+						toBook.getBookings().add(temp);
+						((Player) accounts.get(currentIndex)).getBookings().add(temp);
+					} else if ((choice2.equalsIgnoreCase("y"))
+							&& ((Player) accounts.get(currentIndex)).getWallet().getBalance() < total) {
+						System.out.println("insufficient balance");
+					}
+				} else {
+					throw new Exception("invalid eWallet information");
 				}
 			} catch (Exception e) {
 				System.out.println("incorrect date entered" + e);
@@ -357,6 +383,7 @@ public class system {
 				System.out.println(i + "-" + temp);
 				i++;
 			}
+			System.out.println("Choose Playground to approve");
 			i = scanner.nextInt();
 			scanner.nextLine();
 			((Administrator) accounts.get(currentIndex)).approve(waiting.get(i - 1));
@@ -397,12 +424,12 @@ public class system {
 					}
 					System.out.println("Your choice: -1 to back");
 					choice = scanner.nextInt();
+					scanner.nextLine();
 					if (choice > avaliable.size()) {
 						throw new Exception("invalid choice");
 					} else if (choice == -1) {
 						break;
 					}
-					scanner.nextLine();
 					choice--;
 					System.out.println("Please enter date (dd-MM)");
 					date = scanner.nextLine();
@@ -441,12 +468,12 @@ public class system {
 					}
 					System.out.println("Your choice: -1 to back");
 					choice = scanner.nextInt();
+					scanner.nextLine();
 					if (choice > avaliable.size()) {
 						throw new Exception("invalid choice");
 					} else if (choice == -1) {
 						break;
 					}
-					scanner.nextLine();
 					choice--;
 					System.out.println("Please enter date (dd-MM)");
 					date = scanner.nextLine();
@@ -490,7 +517,6 @@ public class system {
 						} else if (choice == -1) {
 							break;
 						}
-						scanner.nextLine();
 						choice--;
 						System.out.println("Please enter date (dd-MM)");
 						date = scanner.nextLine();
@@ -534,10 +560,11 @@ public class system {
 				matched.remove(i);
 				continue;
 			}
-			SimpleDateFormat formatter = new SimpleDateFormat("dd-MM HH");
-			from = date + " " + from;
-			to = date + " " + to;
-			Booking temp = new Booking(formatter.parse(from), formatter.parse(to));
+			SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy HH");
+			String year = Integer.toString(Calendar.getInstance().get(Calendar.YEAR));
+			String fromDate = date + "-" + year + " " + from;
+			String toDate = date + "-" + year + " " + to;
+			Booking temp = new Booking(formatter.parse(fromDate), formatter.parse(toDate));
 			for (int j = matched.get(i).getBookings().size() - 1; j > 0; j--) {
 				if (matched.get(i).getBookings().get(j).collides(temp)) {
 					matched.remove(i);
@@ -550,12 +577,13 @@ public class system {
 
 	public static void PlayerMenu() throws Exception {
 
-		System.out.println("Welcome " + accounts.get(currentIndex).getUserName() + " to the Player main menu");
+		System.out.println("Welcome " + accounts.get(currentIndex).getUserName() + " to the Player Mainmenu");
 		System.out.println("1- View Playgrounds");
 		System.out.println("2- Modify team");
 		System.out.println("3- View Bookings");
 		System.out.println("4- Logout");
-		switch (scanner.nextLine()) {
+		String choice = scanner.nextLine();
+		switch (choice) {
 		case "1":
 			viewFilter();
 			break;
@@ -576,7 +604,7 @@ public class system {
 
 	public static void OwnerMenu() throws Exception {
 
-		System.out.println("Welcome " + accounts.get(currentIndex).getUserName() + " to the Owner main menu");
+		System.out.println("Welcome " + accounts.get(currentIndex).getUserName() + " to the Owner Mainmenu");
 		System.out.println("1- Add a playground");
 		System.out.println("2- Logout");
 		switch (scanner.nextLine()) {
@@ -594,7 +622,7 @@ public class system {
 
 	public static void adminMenu() throws Exception {
 
-		System.out.println("Welcome " + accounts.get(currentIndex).getUserName() + " to the Administrator main menu");
+		System.out.println("Welcome " + accounts.get(currentIndex).getUserName() + " to the Administrator Mainmenu");
 		System.out.println("1- View playgrounds for approval");
 		System.out.println("2- Logout");
 		switch (scanner.nextLine()) {

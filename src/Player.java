@@ -29,11 +29,10 @@ public class Player extends Account {
 		Team = team;
 	}
 
-	Player(String U, String e, String P, String L) {
+	Player(String U, String e, String P, String L, eWallet w) {
 		super(U, e, P);
 		location = L;
-		wallet = new eWallet();
-		wallet.setBalance(0);
+		wallet = w;
 	}
 
 	public eWallet getWallet() {
@@ -53,9 +52,6 @@ public class Player extends Account {
 	}
 
 	public void modifyTeam() {
-		if (Team.size() == 0) {
-			System.out.println("No teammembers yet");
-		}
 		while (true) {
 			try {
 				System.out.println("Team members");
@@ -116,9 +112,6 @@ public class Player extends Account {
 	}
 
 	public void modifyBookings() {
-		if (bookings.size() == 0) {
-			System.out.println("No bookings yet");
-		}
 		while (true) {
 			try {
 				System.out.println("Your bookings:");

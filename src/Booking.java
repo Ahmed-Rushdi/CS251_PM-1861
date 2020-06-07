@@ -87,9 +87,10 @@ public class Booking {
 
 	@Override
 	public String toString() {
-		StringBuilder str = new StringBuilder("Booking [From=" + From + ", To=" + To + ", bookingID=" + bookingID
-				+ ", duration=" + duration + ", place=" + place + "]");
-		str.append("\nPlayers \n________________");
+		StringBuilder str = new StringBuilder("Booking [From=" + new SimpleDateFormat("dd-MM HH").format(From) + ", To="
+				+ new SimpleDateFormat("dd-MM HH").format(To) + ", bookingID=" + bookingID + ", duration=" + duration
+				+ ", place=" + place + "]");
+		str.append("\nPlayers \n=================\n");
 		for (Player i : booker) {
 			str.append(i);
 			str.append("\n");

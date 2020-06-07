@@ -1,5 +1,6 @@
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 
 public class Playground {
@@ -22,7 +23,7 @@ public class Playground {
 		System.out.println("to");
 		int temp2 = system.scanner.nextInt();
 		system.scanner.nextLine();
-		System.out.println("Enter cancellation dealine in days before the booked day");
+		System.out.println("Enter cancellation deadline in days before the booked day");
 		cancelPeriod = system.scanner.nextInt();
 		system.scanner.nextLine();
 		bookings = new ArrayList<Booking>();
@@ -120,9 +121,12 @@ public class Playground {
 
 	public void displaySlots(Date day) {
 		boolean[] hours = new boolean[24];
-
+		Calendar cal1 = Calendar.getInstance();
+		Calendar cal2 = Calendar.getInstance();
+		cal1.setTime(day);
 		for (int i = 0; i < bookings.size(); i++) {
-			if (bookings.get(i).getFrom().compareTo(day) == 0) {
+			cal2.setTime(bookings.get(i).getFrom());
+			if (cal1.get(Calendar.DAY_OF_YEAR) == cal2.get(Calendar.DAY_OF_YEAR)) {
 				int temp = Integer.parseInt(new SimpleDateFormat("HH").format(bookings.get(i).getFrom()));
 				int temp2 = Integer.parseInt(new SimpleDateFormat("HH").format(bookings.get(i).getTo()));
 				for (int j = temp; j <= temp2; j++) {

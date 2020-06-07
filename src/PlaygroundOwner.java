@@ -16,12 +16,11 @@ public class PlaygroundOwner extends Account {
 		return playgrounds;
 	}
 
-	PlaygroundOwner(String U, String e, String P, String L, String PN) {
+	PlaygroundOwner(String U, String e, String P, String L, String PN, eWallet w) throws Exception {
 		super(U, e, P);
 		Address = L;
 		phoneNum = PN;
-		wallet = new eWallet();
-		wallet.setBalance(0);
+		wallet = w;
 	}
 
 	public String getPhoneNum() {
