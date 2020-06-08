@@ -120,17 +120,27 @@ public class Playground {
 	}
 
 	public void displaySlots(Date day) {
+
 		boolean[] hours = new boolean[24];
 		Calendar cal1 = Calendar.getInstance();
 		Calendar cal2 = Calendar.getInstance();
 		cal1.setTime(day);
 		for (int i = 0; i < bookings.size(); i++) {
 			cal2.setTime(bookings.get(i).getFrom());
-			if (cal1.get(Calendar.DAY_OF_YEAR) == cal2.get(Calendar.DAY_OF_YEAR)) {
+			if (cal1.get(Calendar.DAY_OF_YEAR) == cal2.get(Calendar.DAY_OF_YEAR)
+					&& cal1.get(Calendar.YEAR) == cal2.get(Calendar.YEAR)) {
 				int temp = Integer.parseInt(new SimpleDateFormat("HH").format(bookings.get(i).getFrom()));
 				int temp2 = Integer.parseInt(new SimpleDateFormat("HH").format(bookings.get(i).getTo()));
+				Date begin = cal2.getTime();
 				for (int j = temp; j <= temp2; j++) {
-					hours[j] = true;
+
+					cal2.add(Calendar.HOUR, 1);
+					Date toTest = cal2.getTime();
+					Booking b = new Booking(begin, toTest);
+					if (b.collides(bookings.get(i))) {
+						hours[j] = true;
+					}
+					begin = toTest;
 				}
 			}
 		}
@@ -138,8 +148,12 @@ public class Playground {
 
 		for (end = avaliableTime.from; end <= avaliableTime.to; end++) {
 
+			if (end == 24) {
+				end++;
+				break;
+			}
 			if (hours[start] != hours[end]) {
-				System.out.println(start + " to " + (end - 1) + " is " + (hours[start] ? "Booked" : "avaliable"));
+				System.out.println(start + " to " + (end) + " is " + (hours[start] ? "Booked" : "avaliable"));
 				start = end;
 			}
 		}

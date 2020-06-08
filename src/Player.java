@@ -92,7 +92,7 @@ public class Player extends Account {
 					} else {
 						int index = system.accounts.indexOf(new Account("", rEmail, ""));
 						if (system.accounts.get(index) instanceof Player) {
-							Team.remove(index);
+							Team.remove(system.accounts.get(index));
 							System.out.println("Removed Successfully");
 						} else {
 							throw new Exception("Player doesn't exist");
@@ -145,6 +145,9 @@ public class Player extends Account {
 					if (canceldate.compareTo(bookings.get(index).getFrom()) >= 0) {
 						throw new Exception("Not within cancellation period");
 					} else {
+						double total = bookings.get(index).getPlace().getPph()
+								* (double) bookings.get(index).getDuration();
+						wallet.setBalance(total + wallet.getBalance());
 						bookings.get(index).getPlace().getBookings().remove(bookings.get(index));
 						bookings.remove(index);
 						System.out.println("Success!");

@@ -325,9 +325,8 @@ public class system {
 					throw new Exception("Hours not avaliable");
 				}
 				SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy HH");
-				String year = Integer.toString(Calendar.getInstance().get(Calendar.YEAR));
-				String fromDate = date + "-" + year + " " + from;
-				String toDate = date + "-" + year + " " + to;
+				String fromDate = date + " " + from;
+				String toDate = date + " " + to;
 				Booking temp = new Booking(formatter.parse(fromDate), formatter.parse(toDate), toBook, toInvite);
 
 				for (int i = 0; i < toBook.getBookings().size(); i++) {
@@ -342,8 +341,8 @@ public class system {
 				String pass = scanner.nextLine();
 				if (n.equals(((Player) accounts.get(currentIndex)).getWallet().getNumber())
 						&& pass.equals(((Player) accounts.get(currentIndex)).getWallet().getPassword())) {
-					System.out.println("New balance will be"
-							+ (((Player) accounts.get(currentIndex)).getWallet().getBalance() - total));
+					System.out.println("New balance will be "
+							+ (((Player) accounts.get(currentIndex)).getWallet().getBalance() - total) + " EGP");
 					System.out.println("Confirm?(Y/N will take you back to main menu)");
 					String choice2 = scanner.nextLine();
 					if ((choice2.equalsIgnoreCase("y"))
@@ -433,7 +432,9 @@ public class system {
 					choice--;
 					System.out.println("Please enter date (dd-MM)");
 					date = scanner.nextLine();
-					avaliable.get(choice).displaySlots(new SimpleDateFormat("dd-MM").parse(date));
+					String year = Integer.toString(Calendar.getInstance().get(Calendar.YEAR));
+					date += "-" + year;
+					avaliable.get(choice).displaySlots(new SimpleDateFormat("dd-MM-yyyy").parse(date));
 					System.out.println("Do you want to book a slot (Y/N)");
 					if (scanner.nextLine().equalsIgnoreCase("y")) {
 						bookPlayground(avaliable.get(choice), date);
@@ -477,7 +478,9 @@ public class system {
 					choice--;
 					System.out.println("Please enter date (dd-MM)");
 					date = scanner.nextLine();
-					avaliable.get(choice).displaySlots(new SimpleDateFormat("dd-MM").parse(date));
+					String year = Integer.toString(Calendar.getInstance().get(Calendar.YEAR));
+					date += "-" + year;
+					avaliable.get(choice).displaySlots(new SimpleDateFormat("dd-MM-yyyy").parse(date));
 					System.out.println("Do you want to book a slot (Y/N)");
 					if (scanner.nextLine().equalsIgnoreCase("y")) {
 						bookPlayground(avaliable.get(choice), date);
@@ -485,6 +488,7 @@ public class system {
 					break;
 				} catch (ParseException e) {
 					System.out.println("Invalid date entered");
+					e.printStackTrace();
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -520,7 +524,9 @@ public class system {
 						choice--;
 						System.out.println("Please enter date (dd-MM)");
 						date = scanner.nextLine();
-						matched.get(choice).displaySlots(new SimpleDateFormat("dd-MM").parse(date));
+						String year = Integer.toString(Calendar.getInstance().get(Calendar.YEAR));
+						date += "-" + year;
+						avaliable.get(choice).displaySlots(new SimpleDateFormat("dd-MM-yyyy").parse(date));
 						System.out.println("Do you want to book a slot (Y/N)");
 						if (scanner.nextLine().equalsIgnoreCase("y")) {
 							bookPlayground(matched.get(choice), date);
@@ -528,12 +534,13 @@ public class system {
 						break;
 					} catch (ParseException e) {
 						System.out.println("Invalid date entered");
+						e.printStackTrace();
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
 				}
 			} catch (ParseException e) {
-
+				e.printStackTrace();
 				System.out.println("Incorrect date entered");
 			}
 			break;

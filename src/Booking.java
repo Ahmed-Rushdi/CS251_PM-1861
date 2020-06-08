@@ -16,8 +16,8 @@ public class Booking {
 	public Booking(Date from, Date to, Playground place, ArrayList<Player> booker) {
 		From = from;
 		To = to;
-		duration = Integer.parseInt(new SimpleDateFormat("HH").format(from))
-				- Integer.parseInt(new SimpleDateFormat("HH").format(to));
+		duration = Integer.parseInt(new SimpleDateFormat("HH").format(to))
+				- Integer.parseInt(new SimpleDateFormat("HH").format(from));
 		this.place = place;
 		this.booker = booker;
 		bookingID = counter++;
@@ -66,11 +66,15 @@ public class Booking {
 	}
 
 	public boolean collides(Booking rhs) {
-		if (From.compareTo(rhs.From) >= 0 && From.compareTo(To) < 0)
+		if (From.compareTo(rhs.From) >= 0 && From.compareTo(rhs.To) < 0)
 			return true;
-		else if (To.compareTo(rhs.From) > 0 && To.compareTo(To) <= 0)
+		else if (To.compareTo(rhs.From) > 0 && To.compareTo(rhs.To) <= 0)
 			return true;
 		return false;
+	}
+
+	public int getDuration() {
+		return duration;
 	}
 
 	public void invitePlayers() {
