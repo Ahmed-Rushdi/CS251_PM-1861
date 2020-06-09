@@ -3,6 +3,11 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
+/**
+ * 
+ * @author Hazem Tarek 20180082
+ *
+ */
 public class Playground {
 	private String name;
 	private String Address;
@@ -119,6 +124,11 @@ public class Playground {
 				+ ", playgroundState=" + playgroundState + "]";
 	}
 
+	/**
+	 * displays all avaliable slots in a certain day
+	 * 
+	 * @param day Day to display
+	 */
 	public void displaySlots(Date day) {
 
 		boolean[] hours = new boolean[24];

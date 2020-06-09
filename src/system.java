@@ -6,15 +6,39 @@ import java.util.Collections;
 import java.util.Scanner;
 import java.util.regex.Pattern;
 
+/**
+ * <strong>Main class</strong>
+ * 
+ * @author Ahmed Rushdi Elkilani 20180008 ahmedghjkhk@gmail.com
+ *
+ */
 public class system {
-
+	/**
+	 * used to get input from the console
+	 */
 	public static Scanner scanner = new Scanner(System.in);
+	/**
+	 * used to store accounts
+	 */
 	public static ArrayList<Account> accounts = new ArrayList<Account>();
+	/**
+	 * used to store playgrounds
+	 */
 	public static ArrayList<Playground> playgrounds = new ArrayList<Playground>();
+	/**
+	 * used to determine when to exit the program
+	 */
 	public static boolean running = true;
-
+	/**
+	 * used to save the current index of the logged in account
+	 */
 	public static int currentIndex = -1;
 
+	/**
+	 * generates verifiaction code
+	 * 
+	 * @return Code a randomly generated string of length 6
+	 */
 	public static String rand() {
 		String charsNums = "0123456789" + "abcdefghijklmnopqrstuvxyz" + "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
@@ -28,7 +52,16 @@ public class system {
 		return code.toString();
 	}
 
-	public static void main(String[] args) throws Exception {
+	/**
+	 * main function
+	 * <p>
+	 * Contains the first menu<br>
+	 * Signup, Signin, Exit
+	 * </p>
+	 * 
+	 * @param args
+	 */
+	public static void main(String[] args) {
 
 		System.out.println("Welcome to GoFo playground reservation");
 		while (running) {
@@ -47,16 +80,16 @@ public class system {
 					case "3":
 						running = false;
 						break;
-					case "4":
-						for (Account i : accounts) {
-							System.out.println(i);
-						}
-						break;
-					case "5":
-						for (Playground i : playgrounds) {
-							System.out.println(i);
-						}
-						break;
+//					case "4":
+//						for (Account i : accounts) {
+//							System.out.println(i);
+//						}
+//						break;
+//					case "5":
+//						for (Playground i : playgrounds) {
+//							System.out.println(i);
+//						}
+//						break;
 					default:
 						throw new Exception("Invalid choice");
 					}
@@ -80,6 +113,17 @@ public class system {
 		}
 	}
 
+	/**
+	 * contains the add a playground menu
+	 * <p>
+	 * Takes input using scanner and uses it to intialize an instance of
+	 * <code>Playground</code>. Adds the instance to the <code>playgrounds</code>
+	 * ArrayList
+	 * </p>
+	 * <p>
+	 * Accessbile for <code>PlaygroundOwner</code> only
+	 * </p>
+	 */
 	public static void addPlayground() {
 
 		System.out.println("Enter playground name:");
@@ -104,6 +148,16 @@ public class system {
 		}
 	}
 
+	/**
+	 * contains the registeration enu
+	 * <p>
+	 * Takes input using scanner and uses it to intialize an instance of
+	 * <code>Account</code>'s Childern classes. Adds the instance to the
+	 * <code>accounts</code> ArrayList
+	 * </p>
+	 * 
+	 * @throws Exception - Form validation Errors
+	 */
 	public static void registerMenu() throws Exception {
 		String UN, EM, PW;
 		System.out.println("Register");
@@ -206,6 +260,17 @@ public class system {
 
 	}
 
+	/**
+	 * contains the login menu
+	 * <p>
+	 * Takes input using scanner and uses it to search the accounts arraylist for
+	 * the correct combination
+	 * </p>
+	 * <p>
+	 * If the right combination is found its index is saved in currentIndex
+	 * varaible. Else the user can either retry or return to main.
+	 * </p>
+	 */
 	public static void loginMenu() {
 		String U, P;
 		System.out.println("Login");
@@ -231,10 +296,22 @@ public class system {
 		}
 	}
 
+	/**
+	 * Simply sets the currentIndex varaible to -1
+	 */
 	public static void logout() {
 		currentIndex = -1;
 	}
 
+	/**
+	 * contains the full booking process
+	 * <p>
+	 * Accessbile for <code>Player</code> only
+	 * </p>
+	 * 
+	 * @param toBook - the playground chosen to be booked
+	 * @param date   - the day in which to book
+	 */
 	public static void bookPlayground(Playground toBook, String date) {
 		String from, to;
 		int choice = 0;
@@ -366,6 +443,12 @@ public class system {
 		}
 	}
 
+	/**
+	 * contains the approval menu
+	 * <p>
+	 * Accessbile for Administrator only
+	 * </p>
+	 */
 	public static void approveMenu() {
 
 		ArrayList<Playground> waiting = new ArrayList<Playground>(playgrounds);
@@ -392,6 +475,9 @@ public class system {
 		}
 	}
 
+	/**
+	 * contains the filter and sort menu
+	 */
 	public static void viewFilter() {
 		System.out.println("How do you want to display the playgrounds");
 		System.out.println("1-Sort by Location");
@@ -549,6 +635,20 @@ public class system {
 		}
 	}
 
+	/**
+	 * Filters playgrounds to fit the given time
+	 * <p>
+	 * Takes These inputs by scanner: Date, From(hour), To(hour). Then filters the
+	 * <code>playgrounds</code> to make sure that the given slot(s) is avaliable
+	 * </p>
+	 * <p>
+	 * Accessbile for <code>Player</code> only
+	 * </p>
+	 * 
+	 * @return ArrayList&lt;Playgrounds&gt;matched All the playgrounds that have the
+	 *         given slots open
+	 * @throws ParseException parsing user input to int for comparison
+	 */
 	public static ArrayList<Playground> timeFilter() throws ParseException {
 		ArrayList<Playground> matched = new ArrayList<Playground>(playgrounds);
 		String date, from, to;
@@ -582,6 +682,14 @@ public class system {
 		return matched;
 	}
 
+	/**
+	 * <code>Player</code> specific menu
+	 * <p>
+	 * Accessbile for <code>Player</code> only
+	 * </p>
+	 * 
+	 * @throws Exception input validation
+	 */
 	public static void PlayerMenu() throws Exception {
 
 		System.out.println("Welcome " + accounts.get(currentIndex).getUserName() + " to the Player Mainmenu");
@@ -609,6 +717,14 @@ public class system {
 
 	}
 
+	/**
+	 * <code>PlaygorundOwner</code> specific menu
+	 * <p>
+	 * Accessbile for <code>PlaygorundOwner</code> only
+	 * </p>
+	 * 
+	 * @throws Exception input validation
+	 */
 	public static void OwnerMenu() throws Exception {
 
 		System.out.println("Welcome " + accounts.get(currentIndex).getUserName() + " to the Owner Mainmenu");
@@ -627,6 +743,14 @@ public class system {
 		}
 	}
 
+	/**
+	 * <code>Administrator</code> specific menu
+	 * <p>
+	 * Accessbile for <code>Administrator</code> only
+	 * </p>
+	 * 
+	 * @throws Exception input validation
+	 */
 	public static void adminMenu() throws Exception {
 
 		System.out.println("Welcome " + accounts.get(currentIndex).getUserName() + " to the Administrator Mainmenu");

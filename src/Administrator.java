@@ -1,4 +1,8 @@
-
+/**
+ * 
+ * @author Mahmoud Atya 20180256
+ *
+ */
 public class Administrator extends Account {
 	Administrator(String U, String e, String P) {
 		super(U, e, P);
@@ -9,6 +13,14 @@ public class Administrator extends Account {
 		return "Administrator [userName=" + userName + ", email=" + email + "]";
 	}
 
+	/**
+	 * approves playgournd
+	 * <p>
+	 * changes play gound state to AVALIABLE
+	 * </p>
+	 * 
+	 * @param toApprove the playground chosen to be approved
+	 */
 	public void approve(Playground toApprove) {
 		toApprove.setPlaygroundState(State.AVALIABLE);
 	}

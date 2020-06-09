@@ -1,8 +1,20 @@
 
-
 import java.util.Comparator;
 
+/**
+ * used to compare playgrounds location with respect to the
+ * <code>Player</code>'s address
+ * 
+ * @author Ahmed Rushdi Elkilani 20180008 ahmedghjkhk@gmail.com
+ *
+ */
 public class locationComparator implements Comparator<Playground> {
+	/**
+	 * compares the playgrounds' addresses
+	 * <p>
+	 * Starting with the city, then the neighbourhood, then the street.
+	 * </p>
+	 */
 	public int compare(Playground lhs, Playground rhs) {
 		String pStreet = ((Player) system.accounts.get(system.currentIndex)).getLocation().split("-")[0];
 		String pNeighbourhood = ((Player) system.accounts.get(system.currentIndex)).getLocation().split("-")[1];

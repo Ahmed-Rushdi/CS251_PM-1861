@@ -2,6 +2,11 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
+/**
+ * 
+ * @author Yousef Essam 20180346
+ *
+ */
 public class Player extends Account {
 	private eWallet wallet;
 	private String location;
@@ -51,6 +56,9 @@ public class Player extends Account {
 		this.location = location;
 	}
 
+	/**
+	 * menu to modify the player's team
+	 */
 	public void modifyTeam() {
 		while (true) {
 			try {
@@ -111,6 +119,13 @@ public class Player extends Account {
 		}
 	}
 
+	/**
+	 * menu to view and cancel booking
+	 * <p>
+	 * Cancellation isn't required in the final version but it will be kept as a
+	 * functionality in the program
+	 * </p>
+	 */
 	public void modifyBookings() {
 		while (true) {
 			try {

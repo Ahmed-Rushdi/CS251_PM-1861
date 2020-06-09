@@ -3,6 +3,11 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
+/**
+ * 
+ * @author Hazem Tarek 20180082
+ *
+ */
 public class Booking {
 
 	private Date From;
@@ -65,6 +70,13 @@ public class Booking {
 		this.place = place;
 	}
 
+	/**
+	 * checks if this booking collides with the given booking
+	 * 
+	 * @param rhs booking to check
+	 * @return true if the <code>From</code> and <code>To</code> dates collide with
+	 *         each other
+	 */
 	public boolean collides(Booking rhs) {
 		if (From.compareTo(rhs.From) >= 0 && From.compareTo(rhs.To) < 0)
 			return true;
@@ -77,6 +89,13 @@ public class Booking {
 		return duration;
 	}
 
+	/**
+	 * sends invites to the Players' emails
+	 * <p>
+	 * this doesn't send invites to the actual email, but to a fake inbox that isn't
+	 * used in the main program
+	 * </p>
+	 */
 	public void invitePlayers() {
 		for (int i = 1; i < booker.size(); i++) {
 			booker.get(i).getInbox().add(0,

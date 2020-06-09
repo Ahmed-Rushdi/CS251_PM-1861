@@ -1,5 +1,10 @@
 import java.util.ArrayList;
 
+/**
+ * 
+ * @author Mahmoud Atya 20180256
+ *
+ */
 public class PlaygroundOwner extends Account {
 	private eWallet wallet;
 	private String Address;
@@ -47,6 +52,12 @@ public class PlaygroundOwner extends Account {
 		Address = address;
 	}
 
+	/**
+	 * diplays the owner's profile information
+	 * <p>
+	 * <b>Not required or used</b>
+	 * </p>
+	 */
 	public void displayProfile() {
 		System.out.println("Name:" + userName);
 		System.out.println("Email" + email);
@@ -57,6 +68,11 @@ public class PlaygroundOwner extends Account {
 		}
 	}
 
+	/**
+	 * Adds a playground to the owner's playgrounds
+	 * 
+	 * @param p playground to be added
+	 */
 	public void addPlayground(Playground p) {
 		p.setOwner(this);
 		playgrounds.add(p);

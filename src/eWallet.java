@@ -1,4 +1,8 @@
-
+/**
+ * 
+ * @author Yousef Essam 20180346
+ *
+ */
 public class eWallet {
 	private double balance = 1000;
 	private String password;
