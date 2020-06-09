@@ -51,8 +51,7 @@ public class Account {
 	}
 
 	/**
-	 * @return true if the emails are equal
-	 * @return false if the emails are not equal
+	 * @return true if the emails are equal, false if the emails are not equal
 	 */
 	@Override
 	public boolean equals(Object obj) {
