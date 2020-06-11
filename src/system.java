@@ -78,6 +78,7 @@ public class system {
 						loginMenu();
 						break;
 					case "3":
+						currentIndex = -1;
 						running = false;
 						break;
 //					case "4":
