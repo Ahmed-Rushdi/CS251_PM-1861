@@ -14,9 +14,9 @@ public class Administrator extends Account {
 	}
 
 	/**
-	 * approves playgournd
+	 * approves playground
 	 * <p>
-	 * changes play gound state to AVALIABLE
+	 * changes playground state to AVALIABLE
 	 * </p>
 	 * 
 	 * @param toApprove the playground chosen to be approved
