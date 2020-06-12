@@ -65,7 +65,7 @@ public class system {
 
 		System.out.println("Welcome to GoFo playground reservation");
 		while (running) {
-			while (currentIndex == -1) {
+			while (currentIndex == -1 && running) {
 				try {
 					System.out.println("1-Register a new account");
 					System.out.println("2-Login to your account");
@@ -78,7 +78,6 @@ public class system {
 						loginMenu();
 						break;
 					case "3":
-						currentIndex = -1;
 						running = false;
 						break;
 //					case "4":
